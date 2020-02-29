@@ -1,0 +1,144 @@
+/////////////////////////////////////////////
+//
+//Name:Project 0 Bravo
+//Author:matthew.trovillo@yahoo.com
+//Date:2/25/2020
+//Description: Series of apex method to demonstrate
+//basic understanding of coding concepts
+public class P0B {
+    public static Integer nFibonacci(Integer n){
+        integer f0 = 0;
+        integer f1 = 1;
+        if(n == 0){
+            return f0;
+        }
+        else if(n == 1){
+            return f1;
+        }
+        else{
+            integer ff = 0;
+            for (integer i = 2; i < n+1; i++){
+                ff = f0 + f1;
+                f0 = f1;
+                f1 = ff;
+            }
+            return ff;
+        }
+    }
+    public static Integer[] sortArray(Integer[] intList){
+        integer length = intList.size();
+        for(integer n = 1; n < length; ++n){
+            integer current = intList[n];
+            integer i = n - 1;
+            
+            while(i >= 0 && intList[i] > current){
+                intList[i+1] = intList[i];
+                i -= 1;
+            }
+            intList[i+1] = current;
+        }
+        return intList;
+    }
+    public static void testSort(){
+        List<integer> tester = new list <integer>{5,4,3,2,1};
+        tester = sortArray(tester);
+        system.debug(tester);
+    }
+    public static integer nFactorial(Integer n){
+        integer answer = 1;
+        if(n == 0 || n == 1){
+            return answer;
+        }
+        else{
+            for(integer i = 2; i <= n; i++){
+               answer = answer*i; 
+            }
+            return answer;
+        }
+    }
+    public static void testFactorial(){
+        integer test = nFactorial(0);
+        system.debug(test);
+    }
+    public static Integer[] rotateLeftNTimes( Integer[] items, Integer n){
+        integer length = items.size();
+        for (integer i = 0; i < n; i++){
+            integer saved = items[0];
+            for(integer p = 0; p < length-1; p++){
+                items[p] = items[p+1];
+            }
+            items[length-1] = saved;
+        }
+        return items;
+    }
+    public static void testRotate(){
+        List<integer> tester = new list <integer>{1,2,3,4,5};
+        tester = rotateLeftNTimes(tester,6);
+        system.debug(tester);
+    }
+    public static void testString(){
+        List<Integer> tester = new List<Integer>{1,2,3};
+        Integer check = tester.size();
+        tester.remove(check-1);
+        system.debug(check);
+        system.debug(tester);
+        system.debug(tester.size());
+    }
+    public static Boolean bracketsAreBalanced( String s){
+        if(s.containsOnly('({[') || s.containsOnly(')}]') || String.isEmpty(s)){
+            return false;
+        }
+        s.deleteWhitespace();
+        Integer checkLength = s.length();
+        if(math.mod(checkLength, 2) == 1){
+            return false;
+        }
+        List<String> letterList = s.split('');
+        List<String> listStack = new List<string>();
+        for(String bracket:letterList){
+            switch on bracket{
+                when '('{listStack.add('(');}
+                when '{'{listStack.add('{');}
+                when '['{listStack.add('[');}
+                when ')'{
+                    integer length = listStack.size();
+                    if(length == 0 || listStack.get(length-1) != '('){
+                        return false;
+                    }
+                    else{
+                        listStack.remove(length-1);
+                    }
+                }
+                when '}'{
+                    integer length = listStack.size();
+                    if(length == 0 || listStack.get(length-1) != '{'){
+                        return false;
+                    }
+                    else{
+                        listStack.remove(length-1);
+                    }
+                }
+                when ']'{
+                    integer length = listStack.size();
+                    if(length == 0 || listStack.get(length-1) != '['){
+                        return false;
+                    }
+                    else{
+                        listStack.remove(length-1);
+                    }
+                }
+               }
+            }
+        if(listStack.isEmpty())
+        {
+            return true;
+        }
+        else{
+            return false;
+        }
+   }
+    public static void testBalancedBrackets(){
+        string test = '({[abc}) ';
+        system.debug(bracketsAreBalanced(test));
+    }
+}
