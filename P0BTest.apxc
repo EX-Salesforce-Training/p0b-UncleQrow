@@ -1,0 +1,82 @@
+@IsTest
+public class P0BTests {
+    
+    @IsTest
+    public static void testFibonacci(){
+        
+        integer result = P0B.nFibonacci(0);
+        system.assertEquals(0, result);
+        result = P0B.nFibonacci(1);
+        system.assertEquals(1, result);
+        result = P0B.nFibonacci(2);
+        system.assertEquals(1, result);
+        result = P0B.nFibonacci(10);
+        system.assertEquals(55, result);
+    }
+    
+    @IsTest
+    public static void testSort(){
+        
+        List<integer> input = new List<integer>{2,4,5,1,3,1};
+        List<integer> output = new List<integer>{1,1,2,3,4,5};
+        List<integer> result = P0B.sortArray(input);
+        system.assertEquals(output, result);
+        input = new List<integer>{5,4,3,2,1};
+        output = new List<integer>{1,2,3,4,5};
+        result = P0B.sortArray(input);
+        system.assertEquals(output, result);
+    }
+    
+    @IsTest
+    public static void testFactorial(){
+        integer result = P0B.nFactorial(0);
+        system.assertEquals(1, result);
+        result = P0B.nFactorial(1);
+        system.assertEquals(1, result);
+        result = P0B.nFactorial(3);
+        system.assertEquals(6, result);
+    }
+    
+    @IsTest
+    public static void testRotateLeft(){
+        List<integer> input = new List<integer>{1,2,3,4,5};
+        List<integer> output = new List<integer>{2,3,4,5,1};
+        List<integer> result = P0B.rotateLeftNTimes(input, 1);
+        system.assertEquals(output, result);
+        input = new List<integer>{1,2,3,4,5};
+        result = P0B.rotateLeftNTimes(input, 6);
+        system.assertEquals(output, result);
+        input = new List<integer>{1,2,3,4,5};
+        output = new List<integer>{4,5,1,2,3};
+        result = P0B.rotateLeftNTimes(input, 3);
+        system.assertEquals(output, result);
+    }
+    
+    @IsTest
+    public static void testBalancedBrackets(){
+        String Input = '( )';
+        Boolean result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(true, result);
+        Input = '( ) ( )';
+        result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(true, result);
+        Input = '( ( ) )';
+        result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(true, result);
+        Input = '( { [ ] } )';
+        result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(true, result);
+        Input = '(';
+        result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(false, result);
+        Input = ')';
+        result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(false, result);
+        Input = '( ( )';
+        result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(false, result);
+        Input = '( [ ) ]';
+        result = P0B.bracketsAreBalanced(Input);
+        system.assertEquals(false, result);
+    }
+}
