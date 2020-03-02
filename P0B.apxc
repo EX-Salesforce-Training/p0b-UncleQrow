@@ -89,10 +89,6 @@ public class P0B {
             return false;
         }
         s.deleteWhitespace();
-        Integer checkLength = s.length();
-        if(math.mod(checkLength, 2) == 1){
-            return false;
-        }
         List<String> letterList = s.split('');
         List<String> listStack = new List<string>();
         for(String bracket:letterList){
