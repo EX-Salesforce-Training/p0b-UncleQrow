@@ -79,4 +79,46 @@ public class P0BTests {
         result = P0B.bracketsAreBalanced(Input);
         system.assertEquals(false, result);
     }
+    @IsTest
+    public static void testUpdateAccountSize(){
+        Account a1 = New Account(Name = 'test 1', NumberOfEmployees = 10);
+        Account a2 = New Account(Name = 'test 2', NumberOfEmployees = 1010);
+        Account a3 = New Account(Name = 'test 3', NumberOfEmployees = 10005);
+        test.startTest();
+        insert a1;
+        insert a2;
+        insert a3;
+        P0B.updateAccountSize();
+        test.stopTest();
+        List<Account> testAccounts = [SELECT Name, Size__c FROM Account WHERE Name LIKE 'test _'];
+        for(Account acc: testAccounts){
+            switch on acc.Name{
+                when 'test 1'{ System.assertEquals('small', acc.Size__c);}
+            	when 'test 2'{ System.assertEquals('medium', acc.Size__c);}
+        		when 'test 3'{ System.assertEquals('large', acc.Size__c);}
+            }
+        }
+    }
+    @IsTest
+    public static void testUpdateCALeads(){
+        Lead L1 = New Lead(LastName = 'bob',Company = 'bobInc', Status = 'Working - Contacted', State = 'CA');
+        test.startTest();
+        insert L1;
+        P0B.updateCALeads();
+        test.stopTest();
+        Lead tested = [SELECT Status, Description FROM Lead WHERE LastName = 'bob' AND Company = 'bobInc'];
+        system.assertEquals('Closed - Not Converted', tested.Status);
+        system.assertEquals('We are no longer doing business in California',tested.Description);
+        
+    }
+    @IsTest
+    public static void testclosePastOpportunities(){
+        Opportunity o1 = New Opportunity(Name = 'bob',CloseDate = Date.newInstance(2020, 3, 1), StageName = 'Needs Analysis');
+        test.startTest();
+        insert o1;
+        P0B.closePastDueOpportunities();
+        test.stopTest();
+        Opportunity tested = [SELECT StageName FROM Opportunity WHERE Name = 'bob'];
+        system.assertEquals('Closed Lost',tested.StageName);
+    }
 }

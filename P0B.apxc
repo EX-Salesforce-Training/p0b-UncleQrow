@@ -39,11 +39,6 @@ public class P0B {
         }
         return intList;
     }
-    public static void testSort(){
-        List<integer> tester = new list <integer>{5,4,3,2,1};
-        tester = sortArray(tester);
-        system.debug(tester);
-    }
     public static integer nFactorial(Integer n){
         integer answer = 1;
         if(n == 0 || n == 1){
@@ -56,10 +51,7 @@ public class P0B {
             return answer;
         }
     }
-    public static void testFactorial(){
-        integer test = nFactorial(0);
-        system.debug(test);
-    }
+    
     public static Integer[] rotateLeftNTimes( Integer[] items, Integer n){
         integer length = items.size();
         for (integer i = 0; i < n; i++){
@@ -71,24 +63,13 @@ public class P0B {
         }
         return items;
     }
-    public static void testRotate(){
-        List<integer> tester = new list <integer>{1,2,3,4,5};
-        tester = rotateLeftNTimes(tester,6);
-        system.debug(tester);
-    }
-    public static void testString(){
-        List<Integer> tester = new List<Integer>{1,2,3};
-        Integer check = tester.size();
-        tester.remove(check-1);
-        system.debug(check);
-        system.debug(tester);
-        system.debug(tester.size());
-    }
+    
     public static Boolean bracketsAreBalanced( String s){
         if(s.containsOnly('({[') || s.containsOnly(')}]') || String.isEmpty(s)){
             return false;
         }
         s.deleteWhitespace();
+        Integer checkLength = s.length();
         List<String> letterList = s.split('');
         List<String> listStack = new List<string>();
         for(String bracket:letterList){
@@ -133,8 +114,37 @@ public class P0B {
             return false;
         }
    }
-    public static void testBalancedBrackets(){
-        string test = '({[abc}) ';
-        system.debug(bracketsAreBalanced(test));
+    public static void updateAccountSize(){
+        List<Account> accs = [SELECT Name, NumberOfEmployees, Size__c FROM Account];
+        for(Account acc : accs){
+            if (acc.NumberofEmployees >= 1 && acc.NumberofEmployees <= 1000){
+                acc.Size__c = 'small';
+                update acc;
+            }
+            else if (acc.NumberofEmployees >= 1001 && acc.numberofEmployees <= 10000){
+                acc.Size__c = 'medium';
+                update acc;
+            }
+            else if(acc.NumberofEmployees >= 10001){
+                acc.Size__c = 'large';
+                update acc;
+            }
+        }
+    }
+    public static void updateCALeads(){
+        List<Lead> leads = [SELECT Status, Description FROM Lead WHERE State = 'CA'];
+        for(Lead item: leads){
+            item.Status = 'Closed - Not Converted';
+            item.Description = 'We are no longer doing business in California';
+            update item;
+        }
+    }
+    public static void closePastDueOpportunities(){
+        Date currentDate = date.today();
+        List<Opportunity> Opps = [SELECT CloseDate, StageName FROM Opportunity WHERE CloseDate <: currentDate AND StageName != 'Closed Won'];
+        for(Opportunity opp: Opps){
+            opp.StageName = 'Closed Lost';
+            update opp;
+        }
     }
 }
